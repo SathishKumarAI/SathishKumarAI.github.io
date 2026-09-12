@@ -1,0 +1,94 @@
+# Builds the portfolio from its own repo and publishes it to Pages.
+#
+# The site is not in this repository. This repo exists only because a repo named
+# exactly <user>.github.io is served from the domain root, which keeps Vite's
+# `base` at "/" and lets the identical build serve on both Pages and Vercel.
+name: Deploy portfolio to Pages
+
+on:
+  # Effectively only workflow edits, since the site source is elsewhere.
+  push:
+    branches: [main]
+  # The real trigger. A push to the source repo cannot reach this workflow, so
+  # deploys are run on demand:
+  #   gh workflow run deploy.yml -R SathishKumarAI/SathishKumarAI.github.io
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race; the newest wins.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+env:
+  SOURCE_REPO: SathishKumarAI/Personal-Portfolio
+  # TODO: set to `main` once Personal-Portfolio PR #4 is squash-merged. That
+  # branch holds the current site; main does not yet.
+  SOURCE_REF: redesign/highway-premium
+  # The repo root is supporting material. The site is one level down.
+  SOURCE_DIR: 3d_portfolio
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # A public repo, so the default token is enough and no PAT secret is
+      # needed. persist-credentials:false because nothing here pushes.
+      - name: Check out the site source
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SOURCE_REPO }}
+          ref: ${{ env.SOURCE_REF }}
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ${{ env.SOURCE_DIR }}/package-lock.json
+
+      - name: Install
+        run: npm ci
+        working-directory: ${{ env.SOURCE_DIR }}
+
+      - name: Lint
+        run: npm run lint
+        working-directory: ${{ env.SOURCE_DIR }}
+
+      - name: Build
+        run: npm run build
+        working-directory: ${{ env.SOURCE_DIR }}
+
+      # Cheap guard against shipping the thing this site got wrong once: a
+      # crawler-facing file silently missing from the build output.
+      - name: Check the crawler files survived the build
+        run: |
+          set -e
+          for f in robots.txt llms.txt og.png index.html; do
+            test -s "${{ env.SOURCE_DIR }}/dist/$f" || { echo "missing or empty: dist/$f"; exit 1; }
+          done
+          grep -q 'application/ld+json' "${{ env.SOURCE_DIR }}/dist/index.html" \
+            || { echo "JSON-LD missing from dist/index.html"; exit 1; }
+          echo "robots.txt, llms.txt, og.png and the JSON-LD are all present."
+
+      - uses: actions/configure-pages@v5
+
+      # Pages serves a <user>.github.io repo from the domain root, so Vite's
+      # default base of "/" is already correct. Nothing to rewrite.
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ env.SOURCE_DIR }}/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
