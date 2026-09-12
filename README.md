@@ -24,13 +24,12 @@ this workflow. Deploys run:
 - on push to this repo's `main` (which is effectively only workflow edits), and
 - on demand: `gh workflow run deploy.yml -R SathishKumarAI/SathishKumarAI.github.io`
 
-## The one thing to change later
+## Which ref it builds
 
-`SOURCE_REF` at the top of the workflow is currently
-`redesign/highway-premium`, because that branch carries the current site and
-`main` does not yet. **Set it to `main` once Personal-Portfolio PR #4 is
-squash-merged.** It is one line, and it is the only piece of this repo that goes
-stale.
+`SOURCE_REF` at the top of the workflow is `main`. It pointed at
+`redesign/highway-premium` while that branch carried the site and `main` did
+not; PR #4 squash-merged on 2026-09-12 as `630a38f` and it was flipped in the
+same pass.
 
 ## License
 

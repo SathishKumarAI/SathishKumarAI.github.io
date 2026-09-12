@@ -26,9 +26,7 @@ concurrency:
 
 env:
   SOURCE_REPO: SathishKumarAI/Personal-Portfolio
-  # TODO: set to `main` once Personal-Portfolio PR #4 is squash-merged. That
-  # branch holds the current site; main does not yet.
-  SOURCE_REF: redesign/highway-premium
+  SOURCE_REF: main
   # The repo root is supporting material. The site is one level down.
   SOURCE_DIR: 3d_portfolio
 
