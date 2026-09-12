@@ -31,3 +31,11 @@ this workflow. Deploys run:
 `main` does not yet. **Set it to `main` once Personal-Portfolio PR #4 is
 squash-merged.** It is one line, and it is the only piece of this repo that goes
 stale.
+
+## License
+
+[MIT](LICENSE), matching the source repository. Note that this repo contains no
+site code and no content: the licence here covers the deploy workflow only. The
+site's own content is covered by the License section of
+[Personal-Portfolio](https://github.com/SathishKumarAI/Personal-Portfolio#license),
+which reserves the written material and images.
