@@ -124,7 +124,7 @@ const Footer = () => (
                 href={`${SITE_REPO}/blob/main/LICENSE`}
                 target="_blank"
                 rel="noreferrer"
-                className="text-accent-ink hover:underline"
+                className="inline-flex items-center min-h-11 sm:min-h-0 text-accent-ink hover:underline"
               >
                 Code MIT ↗
               </a>,
@@ -133,7 +133,7 @@ const Footer = () => (
                 href={`${SITE_REPO}/blob/main/docs/prompts/BUILD-THIS-YOURSELF.md`}
                 target="_blank"
                 rel="noreferrer"
-                className="text-accent-ink hover:underline"
+                className="inline-flex items-center min-h-11 sm:min-h-0 text-accent-ink hover:underline"
               >
                 Build your own ↗
               </a>,

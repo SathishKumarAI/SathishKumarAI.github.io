@@ -99,7 +99,7 @@ const Hero = () => {
               the obvious next move after reading it had nowhere to go. */}
           <a
             href="#contact"
-            className="group inline-flex items-center gap-2 rounded-lg -mx-1 px-1 transition-colors hover:text-live focus-visible:text-live"
+            className="group inline-flex items-center gap-2 rounded-lg -mx-1 px-1 min-h-11 sm:min-h-0 transition-colors hover:text-live focus-visible:text-live"
           >
             <AvailabilityCompact />
             {/* Slides out on hover rather than sitting there: an arrow that is

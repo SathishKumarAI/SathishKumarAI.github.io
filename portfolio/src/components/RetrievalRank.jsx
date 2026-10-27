@@ -189,7 +189,7 @@ const RetrievalRank = () => {
                   type="button"
                   onClick={() => pick(q)}
                   aria-pressed={q === query}
-                  className={`w-full text-left font-mono text-chip leading-[1.5] px-3 py-2 rounded border transition-colors ${
+                  className={`w-full text-left font-mono text-chip leading-[1.5] px-3 py-2 min-h-11 sm:min-h-0 rounded border transition-colors ${
                     q === query
                       ? "border-accent-ink/60 text-accent-ink bg-accent/5"
                       : "border-line text-secondary hover:border-accent-ink/40 hover:text-white-100"
