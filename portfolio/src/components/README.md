@@ -15,7 +15,6 @@ Thirty files. Read the table, not the directory.
 | The planes, their nodes, and what flows between them | `systemPlanes` / `systemSubstrate` in `../constants/index.js` |
 | What fills each role on AWS / GCP / Azure | `platformMatrix` in `../constants/index.js` |
 | Why a tool is in the box it is in | `../../docs/STACK-TAXONOMY.md` |
-| The emoji cursor, hero only | `.hero-cursor` in `../index.css`, class in `Hero.jsx` |
 | What the closing band retrieves, and the questions it offers | `RetrievalRank.jsx` |
 | Which tools exist, and their plain-English definitions | `stackGroups` and `glossary` in `../constants/index.js` |
 | Which tools get the filled chip, and each dot's colour | `stackGroups` in `../constants/index.js` |
