@@ -11,7 +11,8 @@
    deliberate exceptions worth knowing:
 
      - The fixed layers (`NeuralField`, the grain, the rails, `BackToTop`,
-       `CommandPalette`) sit outside `<main>` and are positioned, so their
+       `ScrollDown`, `CommandPalette`) sit outside `<main>` and are positioned,
+       so their
        place in this file is paint order, not page order.
      - `AgentNote` and `Footer` come AFTER `</main>` because a page gets one
        main landmark and they are not part of it.
@@ -28,6 +29,7 @@ import Experience from "./components/Experience";
 import Footer from "./components/Footer";
 import ScrollProgress from "./components/ScrollProgress";
 import BackToTop from "./components/BackToTop";
+import ScrollDown from "./components/ScrollDown";
 import ErrorBoundary from "./components/ErrorBoundary";
 import CommandPalette from "./components/CommandPalette";
 import SideRail from "./components/SideRail";
@@ -82,6 +84,7 @@ function App() {
               output layers. Desktop only, like the field and the docks. */}
           <FieldLegend />
           <BackToTop />
+          <ScrollDown />
           <CommandPalette />
         </div>
       </MotionConfig>

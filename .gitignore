@@ -235,3 +235,6 @@ Satish Kumar _ LinkedIn_files/
 # and an untracked file that shows up in every `git status` eventually gets
 # committed by accident.
 /download.png
+
+# Impeccable critique snapshots: local design-review artefacts, not site source
+.impeccable/
