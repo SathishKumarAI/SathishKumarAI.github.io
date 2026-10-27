@@ -61,7 +61,7 @@ const Hero = () => {
        held the same 72px gap. Below 1280px the two were identical, which is
        why a 1280-wide laptop never showed it. */
     <section
-      className={`${styles.paddingX} hero-cursor relative w-full min-h-screen min-h-[100svh] flex items-start pt-20 sm:pt-24`}
+      className={`${styles.paddingX} relative w-full min-h-screen min-h-[100svh] flex items-start pt-20 sm:pt-24`}
       aria-label="Intro"
     >
       {/* Something behind the headline. See `.bloom` in index.css: the page had
