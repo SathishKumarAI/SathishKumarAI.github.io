@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   stackGroups,
@@ -21,6 +21,11 @@ import StackDiagram, { DiagramControls } from "./StackDiagram";
 // to recompute it here, which was correct but made it the second of three
 // answers to the same question, and the other two had already drifted.
 const STACK_META = `${stackGroups.length} areas · ${TOOL_COUNT} tools`;
+
+// The width at which StackDiagram exists at all: it is `hidden lg:block`, and
+// Tailwind's `lg` is 1024px. Written once so the default view and the resize
+// guard cannot disagree with the CSS that actually hides it.
+const DIAGRAM_WIDTH = "(min-width: 1024px)";
 
 const stageNo = (i) => String(i + 1).padStart(2, "0");
 
@@ -222,7 +227,48 @@ const Tech = () => {
    * it -- which reads as the site being broken rather than as a preference
    * being honoured.
    */
-  const [view, setView] = useState("list");
+  /**
+   * WHICH READING OPENS FIRST, and why it is not the flat list any more.
+   *
+   * `systemPlanes` files the same tools as 17 nodes of 1-9 with a plain-English
+   * role line each; `stackGroups` files them as 6 groups of 5-13, which at `xl`
+   * puts all 56 terms on screen at once. The second answers "what does he know",
+   * the first answers "how does it fit together" - and the first is the question
+   * an interview actually asks. It was the one behind an 11px uppercase control
+   * at the far right of the controls row, defaulted off, so most readers never
+   * saw it.
+   *
+   * The flat list is still one click away and is genuinely better at one thing:
+   * scanning for a specific tool name.
+   *
+   * ONLY FROM `lg`. Below 1024px `StackDiagram` is `hidden lg:block`, so opening
+   * in diagram view on a narrow screen would render no stack at all. The planes
+   * are not yet drawn for a phone - that is still to do - so a narrow viewport
+   * opens on the list, which is what it has always had.
+   */
+  const [view, setView] = useState(() =>
+    window.matchMedia(DIAGRAM_WIDTH).matches ? "diagram" : "list"
+  );
+
+  /**
+   * Closes a blank window that predates the new default. Between `md` and `lg`
+   * the desktop grid is hidden when `view === "diagram"`, the diagram itself is
+   * `hidden lg:block`, and the phone list is `md:hidden` - so at 768-1023px in
+   * diagram view the section renders NOTHING. It was unreachable only because
+   * the toggle was never offered below `lg`; a reader at 1200px who chose the
+   * diagram and then narrowed their window fell straight into it.
+   *
+   * Narrowing therefore forces the list back. Widening again deliberately does
+   * not re-open the diagram: by then the reader may have chosen the list on
+   * purpose, and a view that changes under you while you read it is worse than
+   * one that stays put.
+   */
+  useEffect(() => {
+    const mq = window.matchMedia(DIAGRAM_WIDTH);
+    const on = () => { if (!mq.matches) setView("list"); };
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
 
   // Lifted out of StackDiagram because its CONTROL sits in the header, where
   // there is free vertical space, while the thing it controls sits below the
