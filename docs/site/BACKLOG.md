@@ -9,15 +9,19 @@ Future work for the portfolio, as tickets. Priority: **P0** ship-blockers,
 > the default**, reader-controlled text size, full-bleed scenes, a sticky Roles
 > deck, a WebGL hero field on desktop, tool logos on every named technology, and
 > an ask box that retrieves from the page's own copy.
-> Current as of 2026-10-16: `npm test` is 42 checks
-> in CI.
+> Current as of 2026-10-27: `npm test` is 42 checks in CI. The Stack now opens on
+> the 17-node system diagram at `lg` and above (#88); the hero's emoji cursor is
+> gone (#83); a scroll-down button mirrors back-to-top on the left edge (#85); the
+> tool count is derived rather than typed and the ask-palette shortcut is spelled
+> per platform (#86); the stage numerals, hero field labels and Slate's `--c-faint`
+> all clear 4.5:1 (#87); and the thin links carry a 44px target on phones (#89).
 > See [ARCHITECTURE.md](ARCHITECTURE.md) and [DECISIONS.md](DECISIONS.md).
 
 ---
 
 ## Next up, in order of value (added 2026-09-15)
 
-The five below are the whole of what is worth doing next. Everything after them in
+The eight below are the whole of what is worth doing next. Everything after them in
 this file is older and lower-value; if you only have an afternoon, it is the first
 one.
 
@@ -42,6 +46,31 @@ one.
 - [ ] **(P2, S) Campaign act 5: a persistent CTA.** One "open to roles" bar that
   follows the reader instead of a single button in the hero. Small, and worth
   doing after act 4 so it does not fight the scene transitions.
+- [ ] **(P1, M) Draw the stack planes for a phone.** PR #88 made the Stack open on
+  the 17-node `systemPlanes` reading, but only from `lg` - `StackDiagram` is
+  `hidden lg:block`, so a phone still opens on the six flat groups. Desktop and
+  phone now show two different primary taxonomies of the same 56 tools, which is
+  better than the better reading being hidden from everyone but is half the fix.
+  Needs a design decision, not a port: the desktop payload arrows run horizontally
+  and a phone has no horizontal. Keep the flat list as "every tool, A-Z" - it is
+  genuinely the better way to scan for one name. *Plane: `COD-405`.*
+- [ ] **(P2, M) Contrast sweep over the glass surfaces.** PR #87 fixed everything on
+  an opaque ground - 48 elements across three themes, zero failures. What is left
+  cannot be measured by any tool here: an ancestor-walk put a hero clock at
+  **4.93:1** and the bundled detector put the same element at **1.4:1**, because
+  neither can see the composited result of `backdrop-filter` over whatever is
+  scrolled beneath it. Needs pixel sampling from a real capture per theme. Do not
+  trust a naive whole-page sweep: it reports ~77 per theme and counts `sr-only`
+  text ("Text size 100 percent" at 1.21:1) as failures. *Plane: `COD-406`.*
+- [~] **(P2, S) DECISION: what to do about `TokenStream`.** Needs the owner, so
+  nothing was changed. Measured: it crosses exactly one text element, the "Stack"
+  heading, which `src/components/README.md` records as deliberate ("runs out of the
+  Stack heading"); the intro, meta, strip and toggle are all clear. And its
+  "corrupted" fragments - `im - ated - re - trie - val` - are genuine subword
+  tokens, which is the concept. The real problem is that a reader who does not know
+  what a tokenizer emits reads it as a rendering fault, on a page whose argument is
+  precision. Explain it, re-stage it in its own band, or delete it on desktop as was
+  already done for phones. *Plane: `COD-407`.*
 - [ ] **(P1, L) Something live on every project card, not just a repo link.**
   Counted in `src/constants/projects.js`: **five of the six projects are
   `live_link: null`.** The only one a reader can click is `pb-card-deck`. Note,
