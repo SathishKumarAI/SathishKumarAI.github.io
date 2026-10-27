@@ -3,8 +3,8 @@
 Written when work stopped. Read this first on return, then `portfolio/README.md`
 for the change-to-file table.
 
-**Last touched:** 2026-10-16
-**Branch:** `main`. **76 PRs squash-merged** (#1 was closed unmerged), every branch deleted, nothing open.
+**Last touched:** 2026-10-27
+**Branch:** `main`. **88 PRs squash-merged** (#1 was closed unmerged), every branch deleted, nothing open.
 **Working tree:** clean.
 
 **Live:** <https://sathishkumarai.github.io/> — GitHub Pages, built by
@@ -48,6 +48,112 @@ Three things that have each caught someone out:
   every absolute URL unless Vite's `base` changes with it.
 
 **The site is `portfolio/`.** Everything else is supporting material.
+
+## The 2026-10-27 session: an audit, and seven PRs against it
+
+Seven PRs (#83-#89). A full design critique of the site ran first, then its
+findings were worked through in order. **The audit's own score was 30/40 (75%,
+"Good")**, and the snapshot is at
+`.impeccable/critique/2026-10-27T00-34-39Z__portfolio-src-app-tsx.md` -
+gitignored, local only.
+
+| PR | What | The number |
+| --- | --- | --- |
+| #83 | The hero's emoji cursor removed | 65 lines deleted; `dist/` grep clean |
+| #84 | Live demos per project filed as a ticket | 5 of 6 projects are `live_link: null` |
+| #85 | A scroll-down button, left edge, mirroring back-to-top | walked the page in 7 clicks |
+| #86 | The tool count derived; the shortcut label centralised | "47 tools" -> 56; `CMD-K` -> `Ctrl K` on Windows |
+| #87 | Contrast: stage numerals, field labels, Slate's `--c-faint` | 17 failures -> 0 across 48 elements, 3 themes |
+| #88 | Stack opens on the system diagram | 17 nodes of 1-9 instead of 6 groups of 5-13 |
+| #89 | Thin links given a 44px target on phones | 11 undersized -> 3 at 390px |
+
+### What the audit found that mattered most
+
+The site's evidence layer is unmistakably this person's - a network drawing wired
+to the live rects of the two rails, a schematic per role derived from that role's
+own bullets, a TF-IDF retrieval running in the browser over the page's own
+passages. The scaffolding around it is the generic developer-portfolio template.
+**That is the inverse of what a cinematic direction needs**, and the hero is where
+it is most interchangeable.
+
+Two things turned out to be already built and merely hidden: the 17-node stack
+taxonomy (#88 fixed that on desktop) and 1,037 lines of three.js that is
+effectively invisible in the default light theme (not fixed; see below).
+
+### Traps found, each the hard way
+
+- **A threshold you pick out of the air is a bug waiting.** The scroll-down button
+  first used a hand-chosen 32px slack for "is this section still ahead of me".
+  `.hash-span` carries `scroll-margin-top: 5.5rem`, so after a jump the anchor
+  rests at exactly **88px** - above a 32px line. The section you had just arrived
+  at stayed "next" forever: one click reached Roles and every click after did
+  nothing. It now reads the anchor's own computed `scroll-margin-top`.
+- **A comment can be the stale half, not the colour.** Slate's `--c-faint` was
+  commented "4.89:1 on card". Measured against the role card's real fill of
+  `rgb(34,57,63)` it was **4.07:1**. The card had been relit separately and
+  nothing re-measured the text on it.
+- **Not every stale number is wrong.** "It replaced thirty-three floating
+  popovers" and "twelve of thirty-three tools were the heaviest marks" are
+  measurements of rejected designs, taken when the set really was 33. Only
+  present-tense claims were corrected; past-tense ones were left, because
+  updating them would turn a true record into a false one.
+- **Two reported clipping bugs were false positives.** The About availability card
+  reports `scrollWidth` 465 against `clientWidth` 333, but no descendant exceeds
+  the card's width and its text reads out complete - the excess is a decorative
+  pseudo-element a DOM walk cannot see. The footer `dd` reports 25px of overrun
+  while the document does not overflow at all (380 against 390). Nothing was
+  changed for either.
+- **Smooth scroll makes measurement lie.** `<html>` has `scroll-behavior: smooth`
+  and this page is 9,908px, so a programmatic `scrollTo` can still be in flight
+  after 2.5s. Three "bugs" in the scroll-down button were nothing but reads taken
+  mid-animation; a 3s settle showed correct behaviour. Set
+  `documentElement.style.scrollBehavior = 'auto'` before measuring scroll state.
+- **The detector's JSX path finds nothing.** `impeccable detect --json src` exits 0
+  on this codebase - and also exits 0 on a deliberately broken control `.jsx` with
+  10px text and `#777` on `#888`. It is regex-only off HTML. Use its browser
+  rendering mode (`detect <url>`) instead; that found 20 primary + 18 advisory.
+- **An offscreen iframe never fires `whileInView`.** Mounting the app at
+  `left:-99999px` to test narrow widths works for "which view mounted" and lies
+  about "what is visible", because nothing ever intersects a viewport.
+
+### Unfinished, and why - read this before picking anything up
+
+- **Act 1, the cinematic landing page.** The direction was agreed: Act 1 pure
+  atmosphere claiming nothing, everything after it staged measurement, and
+  `data-scheme="dark"` forced for Act 1's own 100svh only - so the three.js field
+  becomes visible to a cold-landing reader *without* overruling the documented
+  Paper default for the document below. **Blocked, genuinely:** Impeccable's
+  context loader returns `BUILD_INIT_REQUIRED` because there is no `PRODUCT.md`,
+  and a new surface needs that captured with the owner first. It is also already
+  in this file's backlog as "(P1, M) Campaign act 4: scroll choreography".
+- **The planes on a phone** - `COD-405`. #88 defaulted the Stack to the 17-node
+  reading only from `lg`, because `StackDiagram` is `hidden lg:block`. Desktop and
+  phone therefore now show two different primary taxonomies of the same 56 tools.
+  Needs a design decision about how 3 planes, a substrate and 17 nodes read at
+  390px, not a port: the desktop version's payload arrows run horizontally, which
+  is the one direction a phone does not have.
+- **Contrast behind the glass** - `COD-406`. #87 fixed everything sitting on an
+  opaque ground. What is left cannot currently be measured: an ancestor-walk put a
+  hero clock at 4.93:1 and the bundled detector put the same element at 1.4:1,
+  and neither sees the composited result of `backdrop-filter` over scrolling
+  content. Wants pixel sampling from a real capture, not `getComputedStyle`.
+- **TokenStream** - `COD-407`. Deliberately not changed. It crosses exactly one
+  text element, the "Stack" heading, which `src/components/README.md` records as
+  the authored intent - and its "broken" fragments are real subword tokens, which
+  is the concept. The problem is that a reader who does not know what a tokenizer
+  emits reads it as a rendering fault. Three options are in the ticket; it is the
+  owner's call.
+- **The persistent contact bar.** Still unbuilt and deliberately left: this file's
+  own backlog says to do it *after* act 4 "so it does not fight the scene
+  transitions", and act 4 is the blocked item above. Sequencing respected rather
+  than overridden.
+
+### Next action
+
+1. Run `/impeccable init` to capture `PRODUCT.md`. It is the one thing blocking
+   the landing page, and it needs the owner's words rather than a guess.
+2. Then Act 1, per the direction above.
+3. `COD-405` and `COD-406` are independent of both and can go in any order.
 
 ## The 2026-10-16 session: layout, docs, and one self-inflicted outage
 
