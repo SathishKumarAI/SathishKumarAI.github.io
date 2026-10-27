@@ -17,7 +17,7 @@ Future work for the portfolio, as tickets. Priority: **P0** ship-blockers,
 
 ## Next up, in order of value (added 2026-09-15)
 
-The four below are the whole of what is worth doing next. Everything after them in
+The five below are the whole of what is worth doing next. Everything after them in
 this file is older and lower-value; if you only have an afternoon, it is the first
 one.
 
@@ -42,6 +42,25 @@ one.
 - [ ] **(P2, S) Campaign act 5: a persistent CTA.** One "open to roles" bar that
   follows the reader instead of a single button in the hero. Small, and worth
   doing after act 4 so it does not fight the scene transitions.
+- [ ] **(P1, L) Something live on every project card, not just a repo link.**
+  Counted in `src/constants/projects.js`: **five of the six projects are
+  `live_link: null`.** The only one a reader can click is `pb-card-deck`. Note,
+  because the ask said "pickleball": `pickleball-vision-llm` is *also* null — the
+  one that works is the card deck, not the vision pipeline. The site's argument is
+  "results reported as measured", and a repo link asks a recruiter to read code to
+  believe it; forty-five seconds is the budget and they will not. **"Live" cannot
+  mean the same thing for all five, which is the whole difficulty:** the two RAG
+  apps are FastAPI over Ollama/Claude and need a backend Pages cannot host (a
+  rate-limited demo host, or a browser-only slice with a prebuilt index — the
+  `RetrievalRank` band already proves that is possible); the two vision projects are
+  pipelines with nothing to visit (a recorded interaction, a precomputed annotated
+  clip, or ONNX/tfjs detection on a sample frame); `instagram-reels-extractor` takes
+  third-party input, so a public demo is a terms-of-service problem and the honest
+  answer is a fixed pre-extracted sample. Keep **absent beats invented** — a project
+  with no honest live artifact keeps `null`. Do this *after* act 4 and the Stack
+  restructure, which change the card shape. Related but not the same as act 3, which
+  is blocked on screenshots: a demo you can record is a screenshot you can take.
+  *Plane: `COD-404`.*
 
 ### Done 2026-09-15
 
