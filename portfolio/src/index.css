@@ -149,7 +149,17 @@
   --c-surface: 27 54 62;
   --c-text: 228 225 218; /* was 236 234 229: 13.65:1 halates in long reading */
   --c-secondary: 168 186 190; /* prose. 8.15:1 on ground */
-  --c-faint: 131 153 160; /* 5.49:1 on ground, 4.89:1 on card */
+  /* 10-13px labels. Was `131 153 160`, commented "5.49:1 on ground, 4.89:1 on
+     card". The ground figure held; the card figure did not - measured in Chrome
+     it is 4.07:1 against the role card's actual fill of rgb(34,57,63), under the
+     4.5:1 floor, so the Roles numerals, every "- United States" and every date
+     range failed. The comment was the stale half, not the colour: the dark role
+     card was relit separately and nothing re-measured the text sitting on it.
+     Swept against that real ground: 131->4.07 FAIL, 140->4.55, 148->5.01,
+     156->5.50. 140 is the minimum and 0.05 of headroom is not a margin, so 148.
+     Still well clear of `--c-secondary` (168 186 190), which is what keeps the
+     label tier reading as a tier. */
+  --c-faint: 148 170 177; /* 6.75:1 on ground, 5.01:1 on the role card */
   --c-strong: 8 20 24;
   --c-accent: 255 78 58; /* FILLS ONLY */
   --c-accent-ink: 255 111 92; /* TEXT. 6.00:1 on ground */
@@ -1019,15 +1029,42 @@ li[data-covered="true"] > .role-card[data-current="true"]::before {
   }
 }
 
-/* The ghost stage numeral. Big enough to be a graphic element, faint enough
-   that it never competes with the heading beside it. */
+/* The stage numeral. Big enough to be a graphic element, quiet enough that it
+   never competes with the heading beside it.
+
+   IT WAS NOT READABLE, AND THE LAYOUT'S WHOLE ARGUMENT RESTS ON IT. The colour
+   was the raw category hue at `opacity: 0.5`, which measured 3.15:1 for Data
+   engineering on the dark ground and 2.36:1 at the faintest — against 4.5:1 for
+   text this size. The justification for the six-column layout is that the
+   columns ARE the path, numbered 01-06; a numbering a reader cannot see cannot
+   make that argument, so this is a correctness fix before it is an
+   accessibility one.
+
+   WHY A MIX AND NOT A NEW TOKEN PER CATEGORY. `--c-accent` already shows the
+   house pattern for this problem: a fill colour that fails as text gets a
+   separate `-ink` variant. Six categories across six palettes would have been
+   thirty-six hand-measured tokens to maintain. Mixing the category hue toward
+   `--c-text` keeps the hue identity - which is the point, colour here is depth
+   along the path - while borrowing the contrast of a token every palette
+   already defines and measures. One line, and a new palette gets it free.
+
+   THE 65% IS A MEASURED CEILING, NOT A TASTE. Swept in Chrome across Paper,
+   Slate and Ink, worst case of the six numerals in each:
+
+     55% category  5.91:1   safe, but further from the hue than it needs to be
+     65% category  5.08:1   <- here
+     70% category  4.71:1   the quietest that still clears 4.5:1
+     75% category  4.39:1   FAILS
+     80% category  4.08:1   FAILS
+
+   70 would keep marginally more hue, and 4.71 leaves 0.21 of headroom - too
+   little for a repo that has added palettes six times, since a new ground only
+   has to be slightly lighter to push it under. 65 keeps the category reading
+   and holds 0.58 in hand. Raise it past 70 and it fails; re-measure, do not
+   estimate. */
 .stack-index {
   font-variant-numeric: tabular-nums;
-  color: rgb(var(--cat));
-  opacity: 0.5;
-}
-:root[data-scheme="light"] .stack-index {
-  opacity: 0.7;
+  color: color-mix(in srgb, rgb(var(--cat)) 65%, rgb(var(--c-text)));
 }
 
 /* One segment of the pipeline rail. Inline `background` carries the tint; the

@@ -653,13 +653,18 @@ export const start = (anchor) => {
       // Only the two layers a reader can point at carry a gloss. See netShape.js.
       if (gloss) {
         const sub = document.createElement("span");
-        sub.className = "font-sans text-[10px] leading-none tracking-[0.04em] text-accent-ink/80";
+        // `-ink` is the accent variant measured safe as text; the `/80` that used
+        // to be here pulled it back under AA (4.27:1 light, 4.24:1 dark at 10px).
+        sub.className = "font-sans text-[10px] leading-none tracking-[0.04em] text-accent-ink";
         sub.textContent = gloss;
         el.append(sub);
       }
 
       const count = document.createElement("span");
-      count.className = "font-mono text-[10px] leading-none text-faint/60 tabular-nums";
+      // `--c-faint` is documented per palette as the 10-13px label colour and is
+    // measured to pass at this size. The `/60` undid that: 2.36:1 on white,
+    // 2.86:1 on the dark ground, for a numeral that states a real layer size.
+    count.className = "font-mono text-[10px] leading-none text-faint tabular-nums";
       count.textContent = String(layer.length);
       el.append(count);
 
