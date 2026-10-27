@@ -1,6 +1,6 @@
 # src/components
 
-Thirty files. Read the table, not the directory.
+Forty-one files, plus `works/covers.js`. Read the table, not the directory.
 
 ## Change to file
 
@@ -46,6 +46,8 @@ Thirty files. Read the table, not the directory.
 | Brand glyph paths, and the list of off-site links | `icons.js` |
 | Scroll-reveal timing used across the page | `Reveal.jsx` |
 | The scroll hairline at the top | `ScrollProgress.jsx` |
+| The bottom-right button back to the top | `BackToTop.jsx` |
+| The bottom-left button one section down, and which section is next | `ScrollDown.jsx` |
 | Clock zones and their labels | `LiveClock.jsx` |
 | The reader's own zone, and the hour difference | `../utils/localzone.js` |
 | The colophon line | `Footer.jsx` |
