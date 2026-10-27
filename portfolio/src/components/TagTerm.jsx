@@ -7,11 +7,13 @@
    plain English when you hover or tap it, and stays a 44px touch target on a
    phone while looking like ordinary text.
 
-   The logos are the interesting part. All 41 marks together are ~17 kB
-   gzipped, which is a lot to pay at first paint for decoration, so they live in
-   a separate file fetched the first time any chip mounts. One module-level
-   cache and a set of waiting callbacks means 33 chips share a single download
-   rather than triggering 33.
+   The logos are the interesting part. All 38 marks together are ~25 kB
+   gzipped (measured 2026-10-27: `gzip -c dist/assets/glyphs-*.js | wc -c` ->
+   25,835 bytes; `ICON_COUNT` in toolIcons.js is the authority on the count, and
+   the generator writes it). That is a lot to pay at first paint for decoration,
+   so they live in a separate file fetched the first time any chip mounts. One
+   module-level cache and a set of waiting callbacks means every chip on screen
+   shares a single download rather than triggering one each.
 
    Walked through slowly: docs/LEARNING-NOTES.md, sections 2 and 5.
 --------------------------------------------------------------------------- */
@@ -138,9 +140,9 @@ const CHIP =
 /**
  * `flow`: the same term with the box taken off.
  *
- * Stack on a phone is thirty-three of these. As boxes that is thirty-three
- * bordered rectangles about 50px tall, which turns a list into most of a
- * screen per group and reads as a form rather than a vocabulary. Bare, the
+ * Stack on a phone is every tool in the set, one after another. As boxes that
+ * is as many bordered rectangles about 50px tall, which turns a list into most
+ * of a screen per group and reads as a form rather than a vocabulary. Bare, the
  * words sit in a paragraph-like flow and the dotted underline does all the work
  * the border was doing — it already marks which terms are definable, which is
  * the only thing the box was communicating.
@@ -296,7 +298,7 @@ const TagTerm = ({
    * With `onDefine` the chip says what it is and a single panel owned by the
    * section decides where that goes. Nothing floats, so nothing can cover a
    * neighbour, and "only one at a time" stops being a thing to coordinate
-   * between thirty-three independent components.
+   * between that many independent components.
    */
   const entryOut = g && { name, full: g.full, def: g.def, link: g.link };
 

@@ -6,6 +6,7 @@
  * barrel re-exporting every one of these, so every existing
  * `from "../constants"` import is unchanged.
  */
+import { TOOL_COUNT } from "./stack.js";
 
 export const systemPlanes = [
   {
@@ -177,7 +178,7 @@ export const systemSubstrate = {
  */
 export const DIAGRAM_WHY = [
   "A tool list answers what I know. It cannot answer whether the pieces fit together, which is the question an interview actually asks.",
-  "So the boxes here are not my skill areas — they are the jobs a system has to do. Three planes pass work downward; inside a plane, nodes are either a sequence or alternatives. Same 47 tools; only the filing changes.",
+  `So the boxes here are not my skill areas — they are the jobs a system has to do. Three planes pass work downward; inside a plane, nodes are either a sequence or alternatives. Same ${TOOL_COUNT} tools; only the filing changes.`,
   "The arrows carry what moves between stages, two stages run in parallel rather than in sequence, and the band underneath is what everything else stands on.",
   "Colour is depth, not category: one hue getting warmer as the work moves from raw data to a shipped product. The substrate sits off that scale, in neutral, because it is not a position on the path.",
   "Every managed piece is a role, not a lock-in: pick a platform to see what fills each one on AWS, Google Cloud or Azure.",

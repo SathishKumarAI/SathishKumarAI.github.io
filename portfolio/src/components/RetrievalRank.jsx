@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { SHORTCUT } from "../utils/shortcut";
 import { ask, corpusSize } from "../utils/answer";
 import { projects } from "../constants";
 
@@ -7,7 +8,7 @@ import { projects } from "../constants";
  * live over this page's own passages, ending in links to the passages it found.
  *
  * Does not own: the retrieval itself. Every number, passage and destination on
- * screen comes from `utils/answer.js`, which is the same index the ⌘K palette
+ * screen comes from `utils/answer.js`, which is the same index the ask palette
  * queries. Nothing here is scripted, nothing is a stored result, and if a role
  * or a project is added to `constants` the ranking below changes in that same
  * edit. A canned animation of a search would have been easier and would have
@@ -173,9 +174,12 @@ const RetrievalRank = () => {
             what this page returns when it is searched
           </p>
           <p className="mt-3 font-sans text-secondary text-body leading-[1.65]">
-            The same index the ⌘K palette uses, run here in your browser. Pick a
-            question and it ranks every passage on the page, then quotes the
-            best one and links to where it lives.
+            {/* The shortcut is the reader's own platform's, from utils/shortcut.js.
+                This line printed "⌘K" to every visitor while the navbar, six inches
+                away on the same screen, correctly printed "Ctrl K" on Windows. */}
+            The same index the {SHORTCUT} palette uses, run here in your browser.
+            Pick a question and it ranks every passage on the page, then quotes
+            the best one and links to where it lives.
           </p>
 
           <ul className="mt-5 flex flex-col gap-2 list-none">

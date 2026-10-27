@@ -78,7 +78,7 @@ export const projects = [
 ];
 
 /* ---------------------------------------------------------------------------
-   THE SAME 47 TOOLS, AS A LAYERED ARCHITECTURE.
+   THE SAME TOOLS, AS A LAYERED ARCHITECTURE.
 
    `stackGroups` above answers "what does he know" and its boxes are areas of
    HIS experience. This answers "how does it fit together", and its boxes are

@@ -6,6 +6,7 @@ import { navLinks, SITE_REPO } from "../constants";
 import ThemeToggle from "./ThemeToggle";
 import FontSizeToggle from "./FontSizeToggle";
 import { ICON_PATHS, readable, socialLinks } from "./icons";
+import { SHORTCUT } from "../utils/shortcut";
 import useActiveSection from "../hooks/useActiveSection";
 
 /**
@@ -31,12 +32,6 @@ import useActiveSection from "../hooks/useActiveSection";
 const prefersReduced = () =>
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// The palette accepts Meta OR Ctrl, but the button said "⌘K" on every platform,
-// so Windows and Linux visitors were shown a key they do not have.
-const isMac = /Mac|iPhone|iPad/.test(
-  navigator.userAgentData?.platform || navigator.platform || ""
-);
-const SHORTCUT = isMac ? "⌘K" : "Ctrl K";
 
 const Navbar = () => {
   const active = useActiveSection();

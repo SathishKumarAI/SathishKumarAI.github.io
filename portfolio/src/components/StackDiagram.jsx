@@ -32,8 +32,8 @@ import TagTerm from "./TagTerm";
  *
  * WHY BANDS AND NOT COLUMNS
  *
- * Five boxes in a row gave each stage about 200px, and 47 tools wrapped inside
- * 200px look exactly like what they were reported as: "all the skills are
+ * Five boxes in a row gave each stage about 200px, and the tool list wrapped
+ * inside 200px looked exactly like what it was reported as: "all the skills are
  * scattered... they are not looking like tool list." Ragged two- and
  * three-word wraps, every box breaking in a different place, no two tools
  * sharing a left edge.

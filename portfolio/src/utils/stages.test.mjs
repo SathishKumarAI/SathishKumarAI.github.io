@@ -3,7 +3,7 @@
 // Named for the failure this repo keeps re-committing: two hand-maintained
 // lists of the same strings, drifting apart silently.
 //
-// Stack renders the same 47 tools twice -- `stackGroups` files them by skill
+// Stack renders the same tools twice -- `stackGroups` files them by skill
 // area for the tool list, `systemPlanes` files them by responsibility for the
 // system diagram. Nothing in React notices when a tool is added to one and not
 // the other: the list simply gains a term, the diagram simply does not, and
@@ -12,7 +12,7 @@
 // finds by looking.
 //
 // Checked here rather than in the browser because it is set arithmetic over
-// two constants, and because a missing term among 47 looks like a deliberate
+// two constants, and because one missing term among dozens looks like a deliberate
 // omission until someone counts.
 import assert from "node:assert/strict";
 import {
