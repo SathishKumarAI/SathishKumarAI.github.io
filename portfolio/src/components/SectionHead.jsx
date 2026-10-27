@@ -23,8 +23,8 @@ import { textVariant } from "../utils/motion";
  * as filled-in rather than written, whatever the quality of what follows.
  *
  * So the eyebrow now carries a fact, and the facts are derived, never typed:
- * four roles because `experience` has four, thirty-three tools because that is
- * the size of the set. They cannot go stale, and they are the kind of claim
+ * four roles because `experience` has four, and the tool count because that is
+ * the size of the set (`TOOL_COUNT`, derived in constants/stack.js). They cannot go stale, and they are the kind of claim
  * this page is otherwise built on — the hero promises evidence, and this is the
  * cheapest possible instance of it. The shapes differ from each other because
  * the numbers do.

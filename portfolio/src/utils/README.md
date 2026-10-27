@@ -1,7 +1,7 @@
 # src/utils
 
-Ten files: four that the app imports at runtime, six that only ever run in a
-terminal. Read the table, not the directory.
+Eleven files: five that the app imports at runtime, six that only ever run in
+a terminal. Read the table, not the directory.
 
 ## Change to file
 
@@ -11,6 +11,7 @@ terminal. Read the table, not the directory.
 | The reader's own time zone, and the hour difference | `localzone.js` |
 | Shared canvas geometry and the seeded RNG the covers use | `draw.js` |
 | The entrance animations every section shares | `motion.js` |
+| How the ask-palette shortcut is spelled on this reader's platform | `shortcut.js` |
 
 ## The tests, and the failure each one is named for
 

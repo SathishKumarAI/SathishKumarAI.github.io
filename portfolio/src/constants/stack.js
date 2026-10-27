@@ -78,3 +78,18 @@ export const stackGroups = [
     items: ["Python", "FastAPI", "Pydantic", "pytest", "Streamlit", "Next.js", "React", "TypeScript", "Tauri"],
   },
 ];
+
+/**
+ * How many tools the stack actually holds.
+ *
+ * A SET, NOT A SUM: a tool may sit in more than one group, and adding the array
+ * lengths would claim more than he lists.
+ *
+ * Exported because three places had started to answer this question
+ * independently and two of them had drifted to a number that was never
+ * recounted: the Stack eyebrow derived it correctly while `DIAGRAM_WHY` said
+ * "47 tools" in copy a reader can open. A fact hard-coded in a component is a
+ * bug, per docs/site/DECISIONS.md -- so it is computed once, here, next to the
+ * data it counts.
+ */
+export const TOOL_COUNT = new Set(stackGroups.flatMap((g) => g.items)).size;

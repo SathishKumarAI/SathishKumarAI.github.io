@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   stackGroups,
+  TOOL_COUNT,
   TERM_HINT,
   systemPlanes,
   systemSubstrate,
@@ -15,11 +16,11 @@ import TokenStream from "./TokenStream";
 import TagTerm from "./TagTerm";
 import StackDiagram, { DiagramControls } from "./StackDiagram";
 
-// A set, not a sum: several tools appear in more than one group, and counting
-// the arrays would claim more than he lists.
-const STACK_META = `${stackGroups.length} areas · ${
-  new Set(stackGroups.flatMap((g) => g.items)).size
-} tools`;
+// The count is a set, not a sum, and it is derived in one place:
+// `TOOL_COUNT` in constants/stack.js, beside the data it counts. This used
+// to recompute it here, which was correct but made it the second of three
+// answers to the same question, and the other two had already drifted.
+const STACK_META = `${stackGroups.length} areas · ${TOOL_COUNT} tools`;
 
 const stageNo = (i) => String(i + 1).padStart(2, "0");
 
@@ -28,7 +29,7 @@ const stageNo = (i) => String(i + 1).padStart(2, "0");
  *
  * Derived, never typed: a tool is looked up in the planes that already own it
  * and a role in the matrix that already places it. Writing this by hand would
- * be a third list of the same 47 strings, which is the drift this section
+ * be a third list of the same strings, which is the drift this section
  * already has a test for.
  */
 const PLACE = (() => {
@@ -194,7 +195,7 @@ const Tech = () => {
   const [active, setActive] = useState(null);
 
   /**
-   * ONE definition panel for thirty-three terms.
+   * ONE definition panel for every term in the stack.
    *
    * `hovered` is what the pointer is over; `pinned` is what a tap fixed in
    * place. Pinned wins, so a reader can park a definition and keep scanning
