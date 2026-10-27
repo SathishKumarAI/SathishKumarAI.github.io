@@ -250,7 +250,7 @@ const About = () => {
                   lost, because the name is the thing you follow. */}
               <a
                 href={`#${project.name}`}
-                className="mt-1 ml-8 inline-block font-mono text-label text-faint hover:text-accent transition-colors"
+                className="mt-1 ml-8 inline-flex items-center min-h-11 sm:min-h-0 font-mono text-label text-faint hover:text-accent transition-colors"
               >
                 {project.name} ↓
               </a>
